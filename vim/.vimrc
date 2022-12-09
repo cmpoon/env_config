@@ -20,15 +20,20 @@ Plugin 'vim-scripts/indentpython.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
+let g:airline#extensions#tabline#enabled = 1
+
 " Python syntax highlighting
 Plugin 'scrooloose/syntastic'
 
 " Plugin for molokai theme
 " You need to clone the github project and move the colors file.
-Plugin 'tomasr/molokai'
+" Plugin 'tomasr/molokai'
+Plugin 'micha/vim-colors-solarized'
+let g:solarized_termcolors=256
 
-Plugin 'zxqfl/tabnine-vim'
+" Plugin 'zxqfl/tabnine-vim'
 Plugin 'fatih/vim-go'
+Plugin 'pedrohdz/vim-yaml-folds'
 set autowrite
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
@@ -85,7 +90,7 @@ noremap <Down> <C-F>
 "noremap <Right> <nop>
 
 "Enable folding
-set foldmethod=indent
+set foldmethod=marker
 set foldlevel=99
 
 "Proper PEP8 indentation
@@ -117,9 +122,12 @@ syntax on
 set mouse=a
 
 " Activate theme
-set t_Co=56
-colorscheme molokai
+"set t_Co=56
+"colorscheme molokai
+set background=dark
+colorscheme solarized
 call vundle#end()             " required
+call togglebg#map("<F5>")
 filetype plugin indent on    " required
 
 set rtp+=$GOPATH/src/golang.org/x/lint/misc/vim
