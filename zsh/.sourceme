@@ -1,32 +1,73 @@
 #!/usr/bin/env bash
 
+
 export GOPATH="/home/cmpoon/go"
 export GOROOT="/usr/local/go"
-export MAINREPOPATH="$GOPATH/src/repo.jazznetworks.com/jazz/main"
-export PATH="$PATH:/usr/local/go/bin:/home/cmpoon/bin:$GOPATH/bin:$MAINREPOPATH/.bin:/home/cmpoon/.cargo/bin"
-export PATH="$PATH:$GOPATH/src/github.com/uber/go-torch/FlameGraph/"
+export MAINREPOPATH="$GOPATH/src/repo.jazzdev.io/jazz/main"
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$MAINREPOPATH/vendor/github.com/google/gousb"
+export PATH="$PATH:/home/cmpoon/bin:/usr/local/go/bin:$GOPATH/bin:$MAINREPOPATH/.bin:$MAINREPOPATH/scripts:/home/cmpoon/.cargo/bin"
 export JAVA_HOME="/usr/lib/jvm/java-10-oracle/"
-export PATH="$PATH:$JAVA_HOME/bin:/snap/bin"
+export PATH="$PATH:$JAVA_HOME/bin:/snap/bin:${KREW_ROOT:-$HOME/.krew}/bin:/home/cmpoon/node_modules/.bin"
+# export PATH="$PATH:/home/cmpoon/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin"
+export PATH="$HOME/.tfenv/bin:$HOME/.local/bin:$PATH"
+source ~/vbaseenv/bin/activate
 
-
-alias aga='aws-google-auth --save-failure-html -r "arn:aws:iam::" && echo $( scp -r ~/.aws/* cmpoon@poon.cm:~/.aws/ )'
+# pinata-ssh-forward
+# export AWS_PROFILE=ci-admin
+# export AWS_DEFAULT_PROFILE=ci-admin
+# export AWS_DEFAULT_REGION=eu-west-1
+export AWS_PROFILE=jazz-aws-stack-role
+export AWS_DEFAULT_PROFILE=jazz-aws-stack-role
+export AWS_DEFAULT_REGION=us-west-2
+export DURATION=14400
+export GOOGLE_IDP_ID=C045psz27
+export GOOGLE_SP_ID=89191966110
+alias aga='aws-google-auth --save-failure-html -r "arn:aws:iam::484684514615:role/ci-admin" && echo $( scp -r ~/.aws/* cmpoon@10.11.0.124:~/.aws/ )'
+#alias aga='aws-google-auth --save-failure-html -r "arn:aws:iam::900218591736:role/jazz-dev-kopsUser" && echo $( scp -r ~/.aws/* chung.poon@devbox-0.ukc.jazznetworks.com:~/.aws/ & scp -r ~/.aws/* cmpoon@10.11.0.124:~/.aws/ )'
 alias aws-development='unset AWS_PROFILE; aws-google-auth -p aws-dev; export AWS_PROFILE=aws-dev'
 alias gpff='git pull --ff-only origin master'
+alias awslatestzip='aws s3api list-objects --bucket jazz-installer-6eff7aaa-25d2-4b6d-8788-27a212b7079d --query "reverse(sort_by(Contents,&LastModified))[*].Key" |  grep "master/" | head -n 1 | sed '\''s/\s*"\(master\/[^\/]*\).*".*/\1/'\'' | (echo -n "s3://jazz-installer-6eff7aaa-25d2-4b6d-8788-27a212b7079d/" && cat) '
 alias gprb='git pull --rebase origin master'
 alias gprbi='git pull --rebase=interactive origin master'
-alias gg='git log --oneline --abbrev-commit --all --graph --decorate --color'
+alias ggraph='git log --oneline --abbrev-commit --all --graph --decorate --color'
 alias gpforce='git push origin +$(git rev-parse --abbrev-ref HEAD)'
-alias gpnew='git push --set-upstream origin +$(git rev-parse --abbrev-ref HEAD)'
+alias gpnew='git push --set-upstream origin +$(git rev-parse --abbrev-ref HEAD) -o ci.variable=CI_SKIP=true'
+
+gpnewmr()
+{
+    gpnew -o merge_request.remove_source_branch -o merge_request.label="Team::Platforms" merge_request.assign="chung.poon" -o merge_request.create  -o merge_request.title="$1" -o merge_request.description="$2"
+}
+alias tfdocs="terraform-docs --output-mode inject --output-file README.md md ."
 alias goverwrite='git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)'
 alias cdu='cd-gitroot'
-
+alias pchk='export ORIGPWD=$(pwd); cdmain; make staticcheck && make static-tests-other && make vendorcheck && echo "All OK!"; cd $ORIGPWD'
 
 alias cdmain='cd $MAINREPOPATH'
+alias cdcm='cd $GOPATH/src/repo.jazzdev.io/jazz/cloud-manager/'
+alias cdia='cd $GOPATH/src/repo.jazzdev.io/jazz/installer-automation/'
+alias cdcld='cd $GOPATH/src/repo.jazzdev.io/jazz/cloud/'
+alias cdinfra='cd $GOPATH/src/repo.jazzdev.io/infra/'
+alias cdtfm='cd $GOPATH/src/repo.jazzdev.io/infra/terraform-modules/'
+alias testwin='cdmain; bazel build --platforms=@io_bazel_rules_go//go/toolchain:windows_amd64 //installer && scp ./bazel-bin/installer/windows_amd64_pure_stripped/installer.exe cmpoon@192.168.122.101:"C:\\Users\\cmpoon\\installer\\" && ssh cmpoon@192.168.122.101'
+
 alias cb='xsel -ib'
 
 alias k8svers="kubectl get nodes -o yaml | grep 'kubeletVersion\|kubeProxyVersion'"
 alias kprjctl='kubectl --kubeconfig="$(pwd)/admin.conf"'
+export PROJECT_ID="robin-sandbox-242615"
+export ZEPLIN_ACCESS_TOKEN=$(cat ~/.zeplin/token)
 
+alias donf-papaerwm="GSETTINGS_SCHEMA_DIR=$HOME/.local/share/gnome-shell/extensions/paperwm@hedning:matrix.org/schemas dconf-editor /org/gnome/shell/extensions/paperwm/"
+alias get_idf='. $HOME/esp/esp-idf/export.sh'
+# unalias ag || true
 
-source ~/vbaseenv/bin/activate
+alias gksu='pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY'
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin_cache"
+
+# xbindkeys &
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+stern -v > /dev/null && source <(stern --completion=zsh)
 
