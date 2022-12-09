@@ -1,0 +1,2 @@
+query --package_path %workspace%:/home/cmpoon/bin/bazel/base_workspace
+
