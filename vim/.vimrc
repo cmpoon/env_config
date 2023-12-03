@@ -27,7 +27,7 @@ Plugin 'scrooloose/syntastic'
 " You need to clone the github project and move the colors file.
 Plugin 'tomasr/molokai'
 
-Plugin 'zxqfl/tabnine-vim'
+" Plugin 'zxqfl/tabnine-vim'
 Plugin 'fatih/vim-go'
 set autowrite
 map <C-n> :cnext<CR>
