@@ -24,7 +24,7 @@ antigen bundle zsh-users/zsh-completions
 antigen bundle mollifier/cd-gitroot
 
 # load this plugin
-antigen bundle superbrothers/zsh-kubectl-prompt
+#antigen bundle superbrothers/zsh-kubectl-prompt
 
 # antigen theme avit 
 # antigen theme bhilburn/powerlevel9k powerlevel9k
@@ -71,7 +71,7 @@ export EDITOR="$VISUAL"
 
 #source ~/vbaseenv/bin/aws_zsh_completer.sh
 
-if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
+# if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 
 
 # The next line updates PATH for the Google Cloud SDK.
