@@ -11,8 +11,6 @@ source "$HOME/antigen.zsh"
 #export WORKON_HOME="$HOME/.virtualenvs"
 # source /usr/local/bin/virtualenvwrapper.sh
 
-source "$HOME/.homesick/repos/homeshick/homeshick.sh"
-fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 fpath+=~/.zfunc
 # POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k
 
@@ -23,27 +21,37 @@ antigen bundle command-not-found
 antigen bundle git
 # antigen bundle virtualenvwrapper
 # Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+# antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zdharma-continuum/fast-syntax-highlighting
 antigen bundle zsh-users/zsh-completions
 antigen bundle mollifier/cd-gitroot
 
+# antigen bundle marlonrichert/zsh-autocomplete
+
 # load this plugin
 antigen bundle superbrothers/zsh-kubectl-prompt
-antigen bundle  hanjunlee/terraform-oh-my-zsh-plugin 
+antigen bundle hanjunlee/terraform-oh-my-zsh-plugin 
+antigen bundle rohancme/zsh_history
 
 # antigen theme avit 
 # antigen theme bhilburn/powerlevel9k powerlevel9k
 antigen theme romkatv/powerlevel10k 
+
+
 antigen apply
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=990000
 SAVEHIST=990000
+ZSH_HISTORY_PROJ="$HOME/env_config/zsh/hist"
 bindkey -e
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
 
 unalias gg
+
+fpath=($ZSH/custom/completions $fpath)
 
 # This speeds up pasting w/ autosuggest
 # https://github.com/zsh-users/zsh-autosuggestions/issues/238
@@ -96,7 +104,7 @@ export EDITOR="$VISUAL"
 #export PATH="$PATH:~/bin/GoLand-2018.2.1:~/bin:~/anaconda3/bin"
 
 #source ~/vbaseenv/bin/activate
-source ~/.local/bin/aws_zsh_completer.sh
+#source ~/.local/bin/aws_zsh_completer.sh
 source <(kubectl completion zsh)
 
 # pinata-ssh-forward
@@ -106,14 +114,6 @@ source <(kubectl completion zsh)
 #export GOOGLE_SP_ID=89191966110
 
 #alias aws-development='unset AWS_PROFILE; aws-google-auth -p aws-dev; export AWS_PROFILE=aws-dev'
-
-# source ~/vbaseenv/bin/aws_zsh_completer.sh
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/cmpoon/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/home/cmpoon/bin/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/cmpoon/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/cmpoon/bin/google-cloud-sdk/completion.zsh.inc'; fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # Completion for kitty
@@ -126,3 +126,15 @@ kitty + complete setup zsh | source /dev/stdin
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 # zprof
 if [ -e /home/cmpoon/.nix-profile/etc/profile.d/nix.sh ]; then . /home/cmpoon/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export ELM_HOME=$HOME/go/src/repo.jazzdev.io/jazz/main/frontend/elm-home
+
+fpath=(/home/cmpoon/.antigen/bundles/robbyrussell/oh-my-zsh/custom/completions /usr/local/share/zsh/site-functions /usr/share/zsh/vendor-functions /usr/share/zsh/vendor-completions /usr/share/zsh/functions/Calendar /usr/share/zsh/functions/Chpwd /usr/share/zsh/functions/Completion /usr/share/zsh/functions/Completion/AIX /usr/share/zsh/functions/Completion/BSD /usr/share/zsh/functions/Completion/Base /usr/share/zsh/functions/Completion/Cygwin /usr/share/zsh/functions/Completion/Darwin /usr/share/zsh/functions/Completion/Debian /usr/share/zsh/functions/Completion/Linux /usr/share/zsh/functions/Completion/Mandriva /usr/share/zsh/functions/Completion/Redhat /usr/share/zsh/functions/Completion/Solaris /usr/share/zsh/functions/Completion/Unix /usr/share/zsh/functions/Completion/X /usr/share/zsh/functions/Completion/Zsh /usr/share/zsh/functions/Completion/openSUSE /usr/share/zsh/functions/Exceptions /usr/share/zsh/functions/MIME /usr/share/zsh/functions/Math /usr/share/zsh/functions/Misc /usr/share/zsh/functions/Newuser /usr/share/zsh/functions/Prompts /usr/share/zsh/functions/TCP /usr/share/zsh/functions/VCS_Info /usr/share/zsh/functions/VCS_Info/Backends /usr/share/zsh/functions/Zftp /usr/share/zsh/functions/Zle /home/cmpoon/.zfunc /home/cmpoon/.antigen/bundles/robbyrussell/oh-my-zsh/lib /home/cmpoon/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/command-not-found /home/cmpoon/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/git /home/cmpoon/.antigen/bundles/zsh-users/zsh-syntax-highlighting /home/cmpoon/.antigen/bundles/zsh-users/zsh-completions /home/cmpoon/.antigen/bundles/mollifier/cd-gitroot /home/cmpoon/.antigen/bundles/superbrothers/zsh-kubectl-prompt /home/cmpoon/.antigen/bundles/hanjunlee/terraform-oh-my-zsh-plugin /home/cmpoon/.antigen/bundles/rohancme/zsh_history /home/cmpoon/.antigen/bundles/romkatv/powerlevel10k /home/cmpoon/.antigen/bundles/zsh-users/zsh-completions/src)

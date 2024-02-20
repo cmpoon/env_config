@@ -1,27 +1,28 @@
 #!/usr/bin/env bash
 
-
+export GOPRIVATE="repo.jazzdev.io"
 export GOPATH="/home/cmpoon/go"
 export GOROOT="/usr/local/go"
 export MAINREPOPATH="$GOPATH/src/repo.jazzdev.io/jazz/main"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$MAINREPOPATH/vendor/github.com/google/gousb"
 export PATH="$PATH:/home/cmpoon/bin:/usr/local/go/bin:$GOPATH/bin:$MAINREPOPATH/.bin:$MAINREPOPATH/scripts:/home/cmpoon/.cargo/bin"
-export JAVA_HOME="/usr/lib/jvm/java-10-oracle/"
-export PATH="$PATH:$JAVA_HOME/bin:/snap/bin:${KREW_ROOT:-$HOME/.krew}/bin:/home/cmpoon/node_modules/.bin"
+# export JAVA_HOME="/usr/lib/jvm/java-10-oracle/"
+export PATH="$PATH:$JAVA_HOME/bin:/snap/bin:${KREW_ROOT:-$HOME/.krew}/bin:/home/cmpoon/node_modules/.bin:/home/cmpoon/.local/share/coursier/bin"
 # export PATH="$PATH:/home/cmpoon/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin"
-export PATH="$HOME/.tfenv/bin:$HOME/.local/bin:$PATH"
+export PATH="$PATH:$HOME/.tfenv/bin:$HOME/.local/bin:/home/cmpoon/.local/share/JetBrains/Toolbox/scripts:/home/cmpoon/go/src/repo.jazzdev.io/infra/tooling/bin"
 source ~/vbaseenv/bin/activate
 
 # pinata-ssh-forward
 # export AWS_PROFILE=ci-admin
 # export AWS_DEFAULT_PROFILE=ci-admin
 # export AWS_DEFAULT_REGION=eu-west-1
-export AWS_PROFILE=jazz-aws-stack-role
-export AWS_DEFAULT_PROFILE=jazz-aws-stack-role
-export AWS_DEFAULT_REGION=us-west-2
-export DURATION=14400
-export GOOGLE_IDP_ID=C045psz27
-export GOOGLE_SP_ID=89191966110
+#export AWS_PROFILE=jazz-aws-stack-role
+#export AWS_DEFAULT_PROFILE=jazz-aws-stack-role
+#export AWS_DEFAULT_REGION=us-west-2
+#export DURATION=14400
+export AUTO_DURATION=true
+export GOOGLE_IDP_ID=C02fh3tdz
+export GOOGLE_SP_ID=548652473448
 alias aga='aws-google-auth --save-failure-html -r "arn:aws:iam::484684514615:role/ci-admin" && echo $( scp -r ~/.aws/* cmpoon@10.11.0.124:~/.aws/ )'
 #alias aga='aws-google-auth --save-failure-html -r "arn:aws:iam::900218591736:role/jazz-dev-kopsUser" && echo $( scp -r ~/.aws/* chung.poon@devbox-0.ukc.jazznetworks.com:~/.aws/ & scp -r ~/.aws/* cmpoon@10.11.0.124:~/.aws/ )'
 alias aws-development='unset AWS_PROFILE; aws-google-auth -p aws-dev; export AWS_PROFILE=aws-dev'
@@ -32,6 +33,7 @@ alias gprbi='git pull --rebase=interactive origin master'
 alias ggraph='git log --oneline --abbrev-commit --all --graph --decorate --color'
 alias gpforce='git push origin +$(git rev-parse --abbrev-ref HEAD)'
 alias gpnew='git push --set-upstream origin +$(git rev-parse --abbrev-ref HEAD) -o ci.variable=CI_SKIP=true'
+alias gpskip="git push -o ci.variable=CI_SKIP=true"
 
 gpnewmr()
 {
@@ -55,8 +57,6 @@ alias cb='xsel -ib'
 alias k8svers="kubectl get nodes -o yaml | grep 'kubeletVersion\|kubeProxyVersion'"
 alias kprjctl='kubectl --kubeconfig="$(pwd)/admin.conf"'
 export PROJECT_ID="robin-sandbox-242615"
-export ZEPLIN_ACCESS_TOKEN=$(cat ~/.zeplin/token)
-
 alias donf-papaerwm="GSETTINGS_SCHEMA_DIR=$HOME/.local/share/gnome-shell/extensions/paperwm@hedning:matrix.org/schemas dconf-editor /org/gnome/shell/extensions/paperwm/"
 alias get_idf='. $HOME/esp/esp-idf/export.sh'
 # unalias ag || true
@@ -64,10 +64,14 @@ alias get_idf='. $HOME/esp/esp-idf/export.sh'
 alias gksu='pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY'
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin_cache"
+alias bazel="bazelisk"
 
 # xbindkeys &
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-stern -v > /dev/null && source <(stern --completion=zsh)
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] &&source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# stern -v > /dev/null && source <(stern --completion=zsh)
 
+[ -d "/home/cmpoon/.sdkman" ] && source "/home/cmpoon/.sdkman/bin/sdkman-init.sh"
+
+[ -f /usr/share/google-cloud-sdk/completion.zsh.inc ] && source /usr/share/google-cloud-sdk/completion.zsh.inc
